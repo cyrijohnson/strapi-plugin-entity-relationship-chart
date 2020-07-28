@@ -7,6 +7,7 @@ import trads from './translations';
 
 export default strapi => {
   const pluginDescription = pluginPkg.strapi.description || pluginPkg.description;
+  const pluginName = pluginPkg.strapi.name || pluginPkg.name;
 
   const plugin = {
     blockerComponent: null,
@@ -21,6 +22,20 @@ export default strapi => {
     layout: null,
     lifecycles,
     leftMenuLinks: [],
+    menu: {
+      // Set a link into the PLUGINS section
+      pluginsSectionLinks: [
+        {
+          destination: `/plugins/${pluginId}`, // Endpoint of the link
+          icon: pluginPkg.strapi.icon,
+          name: pluginName,
+          label: {
+            id: `${pluginId}.plugin.name`, // Refers to a i18n
+            defaultMessage: pluginDescription,
+          },
+        },
+      ],
+    },
     leftMenuSections: [],
     mainComponent: App,
     name: pluginPkg.strapi.name,
